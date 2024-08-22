@@ -76,6 +76,9 @@
             <mxPoint x="290" y="350" as="targetPoint" />
           </mxGeometry>
         </mxCell>
+        <mxCell id="tK2kpGI3DIEtDKNF9ZVy-21" value="&lt;font style=&quot;font-size: 9px;&quot;&gt;AuthDiagram&lt;/font&gt;" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;" vertex="1" parent="1">
+          <mxGeometry x="10" y="30" width="710" height="400" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
