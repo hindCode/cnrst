@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajouter un Statut d'Équipement</title>
+    <!-- Inclure le CSS Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5+I6s2d7t3JgZ9x4geEk5g1jzIb/08dXk6t/8W7Y5" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container mt-5 pt-4">
+        <h1>Ajouter un Statut d'Équipement</h1>
+        <form th:action="@{/statutEquipement/add}" th:object="${statutEquipement}" method="post">
+            <div class="mb-3">
+                <label for="abreviation" class="form-label">Abbréviation:</label>
+                <input type="text" id="abreviation" class="form-control" th:field="*{abreviation}" />
+                <div th:if="${#fields.hasErrors('abreviation')}" class="text-danger" th:errors="*{abreviation}"></div>
+            </div>
+
+            <div class="mb-3">
+                <label for="intitule" class="form-label">Intitulé:</label>
+                <input type="text" id="intitule" class="form-control" th:field="*{intitule}" />
+                <div th:if="${#fields.hasErrors('intitule')}" class="text-danger" th:errors="*{intitule}"></div>
+            </div>
+
+            <div class="mb-3">
+                <label for="ordre" class="form-label">Ordre:</label>
+                <input type="number" id="ordre" class="form-control" th:field="*{ordre}" />
+                <div th:if="${#fields.hasErrors('ordre')}" class="text-danger" th:errors="*{ordre}"></div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Soumettre</button>
+        </form>
+        <a href="/statutEquipement/list" class="btn btn-secondary mt-3">Retour à la liste</a>
+    </div>
+
+    <!-- Scripts JavaScript nécessaires pour Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-wgA6d5e2wH3F4E0Px5KlUs9j7tBfgFz1f+J74+H7XYUUR9XHD9pRbAfj7n5GZikF" crossorigin="anonymous"></script>
+</body>
+</html>

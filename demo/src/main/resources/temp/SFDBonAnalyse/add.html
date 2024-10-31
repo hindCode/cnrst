@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajouter/Modifier Statut</title>
+    <!-- Inclure le CSS Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Import de la police 'Roboto' depuis Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Style global du body */
+        html, body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            font-family: 'Roboto', sans-serif; /* Application de la police Roboto */
+        }
+        .container {
+            flex: 1;
+        }
+        /* Style du footer */
+        footer {
+            background-color: #343a40; /* bg-dark */
+            color: #f8f9fa; /* text-white-50 */
+            padding: 1rem 0;
+            text-align: center;
+            margin-top: auto; /* Force le footer à se coller en bas */
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <img src="/images/logo2018.png" width="30" height="30" class="d-inline-block align-text-top" alt="CNRST Logo">
+            CNRST
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link text-dark" href="/">Home</a></li>
+                <li class="nav-item"><a class="nav-link text-dark" href="/contact">Contact</a></li>
+                <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
+                    <a href="#" class="nav-link dropdown-toggle text-dark" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Tables <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" th:href="@{/products}">Products</a></li>
+                        <li><a class="dropdown-item" th:href="@{/pays}">Pays</a></li>
+                        <li><a class="dropdown-item" th:href="@{/statutfaisabilitedemandebonanalyse/list}">Statut Faisabilite Demande Bon Analyse</a></li>
+                        <li><a class="dropdown-item" th:href="@{/statutfaisabilitedemandedevis/list}">Statut Faisabilite Demande Devis</a></li>
+                        <li><a class="dropdown-item" th:href="@{/laboratoires}">Laboratoires</a></li>
+                        <li><a class="dropdown-item" th:href="@{/services}">Services</a></li>
+                        <li><a class="dropdown-item" th:href="@{/champsficheanalyse}">Champs Fiche Analyse</a></li>
+                        <li><a class="dropdown-item" th:href="@{/civilites}">Civilites</a></li>
+                        <!-- Ajoutez les nouveaux éléments ici -->
+                        <li><a class="dropdown-item" th:href="@{/diplomes}">Diplomes</a></li>
+                        <li><a class="dropdown-item" th:href="@{/equipements}">Equipements</a></li>
+                        <li><a class="dropdown-item" th:href="@{/statutequipements}">Statut Equipements</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Barre de recherche affichée uniquement si l'utilisateur est connecté -->
+            <form class="d-flex me-auto" role="search" action="/search" method="get" sec:authorize="isAuthenticated()">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="query">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+
+            <ul class="navbar-nav me-3" sec:authorize="isAuthenticated()">
+                <li class="nav-item">
+                    <a class="btn btn-primary" href="/profile">Admin Profile</a>
+                </li>
+            </ul>
+            <form sec:authorize="isAuthenticated()" method="post" action="/logout">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                <button type="submit" class="btn btn-danger">Logout</button>
+            </form>
+
+            <ul class="navbar-nav" sec:authorize="!isAuthenticated()">
+                <li class="nav-item"><a href="/register" class="btn btn-outline-primary me-2">Register</a></li>
+                <li class="nav-item"><a href="/login" class="btn btn-primary">Login</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container py-5">
+    <h2 th:text="${statut.id == null} ? 'Ajouter Statut' : 'Modifier Statut'"></h2>
+    <form class="form-horizontal" th:object="${statut}" th:action="@{/statutfaisabilitedemandebonanalyse/save}" method="post">
+        <!-- Hidden field for Statut ID -->
+        <input type="hidden" th:field="*{id}" />
+
+        <!-- Form fields -->
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" for="dateDerniereModification">Date Dernière Modification:</label>
+            <div class="col-sm-10">
+                <input type="date" class="form-control" id="dateDerniereModification" th:field="*{dateDerniereModification}" required />
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('dateDerniereModification')}" th:errors="*{dateDerniereModification}">Invalid Date</div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" for="abreviation">Abréviation:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="abreviation" th:field="*{abreviation}" required />
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('abreviation')}" th:errors="*{abreviation}">Invalid Abbreviation</div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" for="intitule">Intitulé:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="intitule" th:field="*{intitule}" required />
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('intitule')}" th:errors="*{intitule}">Invalid Intitulé</div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" for="ordre">Ordre:</label>
+            <div class="col-sm-10">
+                <input type="number" class="form-control" id="ordre" th:field="*{ordre}" required />
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('ordre')}" th:errors="*{ordre}">Invalid Order</div>
+            </div>
+        </div>
+        <!-- Bouton de sauvegarde -->
+        <div class="form-group row">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary">Enregistrer</button>
+            </div>
+        </div>
+    </form>
+    <a th:href="@{/statutfaisabilitedemandebonanalyse/list}" class="btn btn-secondary">Retour à la liste</a>
+</div>
+
+<!-- Footer -->
+<footer id="sticky-footer">
+    <div class="container text-center">
+        <small>&copy; 2024 CNRST. All rights reserved.</small>
+    </div>
+</footer>
+
+<!-- Scripts JavaScript nécessaires pour Bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

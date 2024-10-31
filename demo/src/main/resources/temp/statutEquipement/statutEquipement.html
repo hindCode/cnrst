@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des Statuts d'Équipement</title>
+    <!-- Inclure le CSS Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5+I6s2d7t3JgZ9x4geEk5g1jzIb/08dXk6t/8W7Y5" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Liste des Statuts d'Équipement</h1>
+        <a href="/statutEquipement/add" class="btn btn-primary mb-3">Ajouter un Nouveau Statut</a>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Abbréviation</th>
+                    <th>Intitulé</th>
+                    <th>Ordre</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="statut : ${statuts}">
+                    <td th:text="${statut.idStatutEquipement}">ID</td>
+                    <td th:text="${statut.abreviation}">Abbréviation</td>
+                    <td th:text="${statut.intitule}">Intitulé</td>
+                    <td th:text="${statut.ordre}">Ordre</td>
+                    <td>
+                        <a th:href="@{/statutEquipement/edit/{id}(id=${statut.idStatutEquipement})}" class="btn btn-warning btn-sm">Modifier</a>
+                        <a th:href="@{/statutEquipement/delete/{id}(id=${statut.idStatutEquipement})}" 
+                           class="btn btn-danger btn-sm" 
+                           onclick="return confirm('Êtes-vous sûr de vouloir supprimer ?')">Supprimer</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Scripts JavaScript nécessaires pour Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-wgA6d5e2wH3F4E0Px5KlUs9j7tBfgFz1f+J74+H7XYUUR9XHD9pRbAfj7n5GZikF" crossorigin="anonymous"></script>
+</body>
+</html>

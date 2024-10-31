@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Register</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        /* Sticky Footer Classes */
+        html, body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #page-content {
+            flex: 1 0 auto;
+            margin: 0;
+        }
+
+        /* Style du footer */
+        footer {
+            flex-shrink: 0;
+            background-color: #343a40; /* bg-dark */
+            color: #f8f9fa; /* text-white-50 */
+            padding: 0.5rem 0; /* Réduit la hauteur du pied de page */
+            text-align: center;
+        }
+
+        /* Autres styles de page */
+        body {
+            background: #ffffff; /* Couleur de fond blanc */
+            background: linear-gradient(to right, #ffffff, #ffffff); /* Dégradé blanc */
+        }
+
+        .navbar-brand img {
+            height: 30px;
+        }
+
+        .wrapper {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+            width: 100%;
+            min-height: calc(100vh - 100px); /* Ajuste la hauteur pour le header et le footer */
+            padding: 20px;
+        }
+
+        #formContent {
+            border-radius: 8px;
+            background: #fff;
+            padding: 20px;
+            width: 90%;
+            max-width: 350px;
+            position: relative;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        input[type=text], input[type=password], input[type=email], input[type=tel], input[type=address] {
+            background-color: #f6f6f6;
+            border: none;
+            color: #0d0d0d;
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+            margin: 5px 0;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        input[type=text]:focus, input[type=password]:focus, input[type=email]:focus, input[type=tel]:focus, input[type=address]:focus {
+            background-color: #fff;
+            border-color: #5fbae9;
+        }
+
+        .btn-primary {
+            background-color: #56baed;
+            border: none;
+            color: white;
+            padding: 10px 60px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            text-transform: uppercase;
+            font-size: 12px;
+            border-radius: 4px;
+            margin: 15px 0;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .btn-primary:hover {
+            background-color: #39ace7;
+        }
+
+        .btn-outline-primary {
+            border-color: #56baed;
+            color: #56baed;
+            padding: 10px 60px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            text-transform: uppercase;
+            font-size: 12px;
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+
+        .btn-outline-primary:hover {
+            background-color: #56baed;
+            color: white;
+        }
+
+        /* Style du titre du formulaire */
+        #formContent h2 {
+            margin-bottom: 20px;
+        }
+
+        /* Style du lien du pied de page du formulaire */
+        #formFooter a {
+            color: #56baed;
+            text-decoration: none;
+        }
+
+        #formFooter a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="/images/logo2018.png" width="30" height="30" class="d-inline-block align-text-top" alt="CNRST Logo">
+                CNRST
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link text-dark" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link text-dark" href="/contact">Contact</a></li>
+                    <li class="nav-item" sec:authorize="isAuthenticated()"><a class="nav-link text-dark" href="/contact">Contact</a></li>
+                    <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
+                        <a href="#" class="nav-link dropdown-toggle text-dark" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Tables <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/userList">Users</a></li>
+                            <li><a class="dropdown-item" href="/permissionList">Permissions</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item" sec:authorize="isAnonymous()"><a class="nav-link" href="/login">Login</a></li>
+                    <li class="nav-item" sec:authorize="isAnonymous()"><a class="nav-link" href="/register">Register</a></li>
+                    <li class="nav-item" sec:authorize="isAuthenticated()"><a class="nav-link" href="/logout">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div id="page-content">
+        <div class="wrapper">
+            <div id="formContent">
+                <h2 class="active"> Register </h2>
+                <form th:action="@{/register}" method="post">
+                    <input type="text" id="username" name="username" placeholder="Username" required />
+                    <input type="text" id="firstName" name="firstName" placeholder="First Name" required />
+                    <input type="text" id="lastName" name="lastName" placeholder="Last Name" required />
+                    <input type="email" id="email" name="email" placeholder="Email Address" required />
+                    <input type="password" id="password" name="password" placeholder="Password" required />
+                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required />
+                    <input type="tel" id="phone" name="phone" placeholder="Phone Number" />
+                    <input type="address" id="address" name="address" placeholder="Address" />
+                    <input type="submit" class="btn-primary" value="Register" />
+                </form>
+                <div id="formFooter">
+                    <a class="underlineHover" href="/login">Already have an account? Login here</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2024 CNRST. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-rbsA/6MI4j/JdRAT/JfKJf/bEo/L/2wFhpjoWw/f3b5MHe5XvY2BGVugjlw0sz5m" crossorigin="anonymous"></script>
+</body>
+</html>

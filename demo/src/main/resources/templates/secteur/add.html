@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajouter / Modifier Secteur</title>
+    <link rel="icon" href="/images/logo_cnrst_2018.ico" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            font-family: 'Roboto', sans-serif;
+        }
+        .container {
+            flex: 1;
+        }
+        footer {
+            background-color: #343a40;
+            color: #f8f9fa;
+            padding: 1rem 0;
+            text-align: center;
+            margin-top: auto;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <img src="/images/logo2018.png" width="30" height="30" class="d-inline-block align-text-top" alt="CNRST Logo">
+            CNRST
+        </a>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <h2 th:text="${secteur.idSecteur != null ? 'Modifier Secteur' : 'Ajouter Secteur'}"></h2>
+
+    <form th:action="@{/secteur/save}" th:object="${secteur}" method="post">
+        <div class="mb-3">
+            <label for="abreviation" class="form-label">Abreviation</label>
+            <input type="text" class="form-control" id="abreviation" th:field="*{abreviation}" required>
+        </div>
+        <div class="mb-3">
+            <label for="intitule" class="form-label">Intitule</label>
+            <input type="text" class="form-control" id="intitule" th:field="*{intitule}" required>
+        </div>
+        <div class="mb-3">
+            <label for="ordre" class="form-label">Ordre</label>
+            <input type="number" class="form-control" id="ordre" th:field="*{ordre}" required>
+        </div>
+        <input type="hidden" th:field="*{idSecteur}"/>
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+        <a href="/secteurs" class="btn btn-secondary">Annuler</a>
+    </form>
+</div>
+
+<footer id="sticky-footer">
+    <div class="container text-center">
+        <small>&copy; 2024 CNRST. All rights reserved.</small>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
